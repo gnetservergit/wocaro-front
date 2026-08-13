@@ -5,9 +5,6 @@ import { buildPageMetadata } from "@/lib/seo";
 
 const HOME_SLUG = "home";
 
-/** ISR: cache page HTML/data; WordPress save triggers /api/revalidate for instant updates. */
-export const revalidate = 60;
-
 export async function generateMetadata(): Promise<Metadata> {
   const page = await fetchPageBySlug(HOME_SLUG);
   return await buildPageMetadata(page, HOME_SLUG, "Home");

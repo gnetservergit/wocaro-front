@@ -10,8 +10,12 @@ import {
   toAppHref,
 } from "@/lib/paths";
 
+function normalizePath(path: string | null | undefined): string {
+  return (path ?? "/").replace(/\/$/, "") || "/";
+}
+
 function navLinkClass(path: string, pathname: string | null) {
-  const active = pathname === path;
+  const active = normalizePath(pathname) === normalizePath(path);
   return `nav-link${active ? " active" : ""}`;
 }
 
@@ -69,7 +73,11 @@ export default function HeaderNav({ menuItems, headerInfo }: HeaderNavProps) {
                       <Link
                         className={linkClass}
                         href={toAppHref(item.url)}
-                        aria-current={pathname === relativePath ? "page" : undefined}
+                        aria-current={
+                          normalizePath(pathname) === normalizePath(relativePath)
+                            ? "page"
+                            : undefined
+                        }
                         target={item.target || undefined}
                       >
                         {item.title}
@@ -78,7 +86,11 @@ export default function HeaderNav({ menuItems, headerInfo }: HeaderNavProps) {
                       <a
                         className={linkClass}
                         href={toAppHref(item.url)}
-                        aria-current={pathname === relativePath ? "page" : undefined}
+                        aria-current={
+                          normalizePath(pathname) === normalizePath(relativePath)
+                            ? "page"
+                            : undefined
+                        }
                         target={item.target || undefined}
                       >
                         {item.title}

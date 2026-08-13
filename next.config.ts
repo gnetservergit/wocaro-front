@@ -2,6 +2,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Static HTML/CSS/JS for shared hosting (FTP `out/` to the domain).
+  output: "export",
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
   productionBrowserSourceMaps: true,
   sassOptions: {
     silenceDeprecations: [],

@@ -1,0 +1,18 @@
+# Next.js static export on Apache / LiteSpeed shared hosting
+DirectoryIndex index.html
+
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Leave WordPress (subdomain /wp) untouched
+  RewriteRule ^wp(/|$) - [L]
+
+  # Existing files and folders (including /about/ -> /about/index.html)
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  RewriteRule ^404/?$ /404.html [L]
+</IfModule>

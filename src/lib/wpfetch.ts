@@ -1,10 +1,9 @@
 /**
- * Shared fetch options for all WordPress API calls (ISR + cache tags).
+ * Shared fetch options for WordPress API calls.
  *
- * - Production: caches responses (default 60s pages, 300s menus/options).
+ * - Production/export: data is baked into static HTML at `next build`.
  * - Development: shorter revalidate (15s) so ACF edits show up quickly.
  * - Override globally via WP_FETCH_REVALIDATE in .env.
- * - Tags (e.g. page:home) allow on-demand revalidation from /api/revalidate.
  */
 const IS_DEV = process.env.NODE_ENV === "development";
 

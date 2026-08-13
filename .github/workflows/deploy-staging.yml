@@ -1,0 +1,129 @@
+name: Deploy Staging (FTP)
+
+on:
+  push:
+    branches: [staging, main]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Preview FTP changes without uploading
+        type: boolean
+        default: false
+
+concurrency:
+  group: staging-ftp-deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Build static site and FTP
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Load STAGING_ENV
+        id: env
+        env:
+          STAGING_ENV: ${{ secrets.STAGING_ENV }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import sys
+          from pathlib import Path
+
+          raw = os.environ.get("STAGING_ENV", "").replace("\r\n", "\n").strip()
+          if not raw:
+              print("Missing secret STAGING_ENV. Paste the full .env.example contents into that one secret.", file=sys.stderr)
+              sys.exit(1)
+
+          parsed = {}
+          for line in raw.split("\n"):
+              stripped = line.strip()
+              if not stripped or stripped.startswith("#") or "=" not in stripped:
+                  continue
+              key, value = stripped.split("=", 1)
+              key = key.strip()
+              value = value.strip()
+              if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+                  value = value[1:-1]
+              parsed[key] = value
+
+          required_app = ["NEXT_PUBLIC_SITE_URL", "NEXT_PUBLIC_WP_API_URL"]
+          required_ftp = ["STAGING_FTP_HOST", "STAGING_FTP_USERNAME", "STAGING_FTP_PASSWORD", "STAGING_FTP_SERVER_DIR"]
+          missing = [key for key in required_app + required_ftp if not parsed.get(key)]
+          if missing:
+              print(f"STAGING_ENV is missing: {', '.join(missing)}", file=sys.stderr)
+              sys.exit(1)
+
+          Path(".env").write_text(raw + "\n", encoding="utf-8")
+
+          server_dir = parsed["STAGING_FTP_SERVER_DIR"]
+          if not server_dir.endswith("/"):
+              server_dir += "/"
+          port = parsed.get("STAGING_FTP_PORT") or "21"
+          protocol = parsed.get("STAGING_FTP_PROTOCOL") or "ftps"
+
+          for secret_value in (
+              parsed.get("STAGING_FTP_PASSWORD", ""),
+              parsed.get("STAGING_FTP_USERNAME", ""),
+          ):
+              if secret_value:
+                  print(f"::add-mask::{secret_value}")
+
+          output = Path(os.environ["GITHUB_OUTPUT"])
+          def write(key, value):
+              with output.open("a", encoding="utf-8") as fh:
+                  fh.write(f"{key}<<__EOF__\n{value}\n__EOF__\n")
+
+          write("host", parsed["STAGING_FTP_HOST"])
+          write("username", parsed["STAGING_FTP_USERNAME"])
+          write("password", parsed["STAGING_FTP_PASSWORD"])
+          write("server_dir", server_dir)
+          write("port", port)
+          write("protocol", protocol)
+          PY
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static export
+        run: npm run build
+
+      - name: FTP deploy (changed files only)
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ steps.env.outputs.host }}
+          username: ${{ steps.env.outputs.username }}
+          password: ${{ steps.env.outputs.password }}
+          port: ${{ steps.env.outputs.port }}
+          protocol: ${{ steps.env.outputs.protocol }}
+          local-dir: ./out/
+          server-dir: ${{ steps.env.outputs.server_dir }}
+          security: loose
+          timeout: 120000
+          log-level: standard
+          dry-run: ${{ github.event.inputs.dry_run == 'true' }}
+          # Never wipe WordPress or cPanel folders in public_html.
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/*.map
+            **/wp
+            **/wp/**
+            **/cgi-bin
+            **/cgi-bin/**
+            **/.well-known
+            **/.well-known/**

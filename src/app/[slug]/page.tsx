@@ -12,16 +12,11 @@ type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-/** New WP pages work on first visit — no rebuild required. */
-export const dynamicParams = true;
-
-export const revalidate = 60;
-
 function stripHtml(html: string | undefined): string {
   return html?.replace(/<[^>]+>/g, "").trim() ?? "";
 }
 
-/** Pre-build known pages at deploy time; unknown slugs still render via ISR. */
+/** Bake published WP pages into static HTML at build time. */
 export async function generateStaticParams() {
   const slugs = await fetchPublishedPageSlugs();
   return slugs.map((slug) => ({ slug }));

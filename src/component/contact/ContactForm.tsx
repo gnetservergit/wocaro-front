@@ -2,6 +2,7 @@
 
 import Icon from "../Icons/Icon";
 import { FormEvent, useState } from "react";
+import { getWpApiUrl } from "@/lib/paths";
 
 const ContactForm = () => {
   const [names, setNames] = useState("");
@@ -16,7 +17,14 @@ const ContactForm = () => {
     setFeedback("");
 
     try {
-      const res = await fetch("/api/contact", {
+      const wpApi = getWpApiUrl();
+      if (!wpApi) {
+        setStatus("error");
+        setFeedback("WordPress API is not configured.");
+        return;
+      }
+
+      const res = await fetch(`${wpApi}/custom/v1/fluentform-submit`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

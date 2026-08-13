@@ -8,7 +8,7 @@ function stripHtml(html: string | undefined): string {
 /** Next.js path for alternates.canonical (resolved via metadataBase). */
 export function getCanonicalPath(slug: string): string {
   if (slug === "home" || slug === "") return "/";
-  return `/${slug.replace(/^\/+/, "")}`;
+  return `/${slug.replace(/^\/+/, "")}/`;
 }
 
 /** SEO title + description from WP page title and site name / tagline (Settings → General). */
