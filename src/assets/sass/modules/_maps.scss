@@ -1,0 +1,80 @@
+@import "variables";
+
+// Default maps overrides
+
+$custom-colors: (
+	"primary": $primary,
+	"info":$info,
+	"secondary":$secondary,
+	"success": $success,
+	"pink":$pink,
+	"gray":$gray,
+	"light":$light,
+	"orange": $orange,
+	// 		"beige": $beige,
+	// 		"light": $light,
+	// 		"danger": $danger,
+);
+
+$custom-spacers: (
+	0: 0,
+	s: $spacer * 0.1875,
+	//3px
+	1: $spacer * 0.375,
+	//6px
+	m: $spacer * 0.5625,
+	//9px
+	2: $spacer * 0.75,
+	//12px
+	l: $spacer * 0.9375,
+	//15px
+	3: $spacer * 1.125,
+	//18px
+	4: $spacer * 1.5,
+	//24px
+	5: $spacer * 1.875,
+	//30px
+	6: $spacer * 2.25,
+	//36px
+	7: $spacer * 2.625,
+	//42px
+	8: $spacer * 3,
+	//48px
+	9: $spacer * 3.375,
+	//54px
+	10: $spacer * 3.75,
+	//60px
+	12: $spacer * 4.5,
+	//72px
+	14: $spacer * 5.25,
+	//84px
+);
+
+$custom-font-sizes: (
+	1: $h1-font-size,
+	2: $h2-font-size,
+	3: $h3-font-size,
+	4: $h4-font-size,
+	5: $h5-font-size,
+	6: $h6-font-size
+);
+
+//$custom-display-font-sizes: (
+//	1: 3.875rem, //62px
+//);
+
+
+
+// Merge the maps
+$spacers: map-merge($spacers, $custom-spacers);
+$theme-colors: map-merge($theme-colors, $custom-colors);
+$font-sizes: map-merge($font-sizes, $custom-font-sizes);
+//$display-font-sizes: map-merge($display-font-sizes, $custom-display-font-sizes);
+
+
+// Remove from map
+/*$theme-colors: map-remove($theme-colors, "info", "light", "dark");*/
+
+
+// Bootstrap and its default maps
+@import "bootstrap/scss/maps";

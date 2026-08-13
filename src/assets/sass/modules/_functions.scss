@@ -1,0 +1,37 @@
+
+
+//theme functions
+
+@use "sass:math";
+
+@function rem($value: 16) {
+  $base: 16;
+  $result: math.div($value, $base)+rem;
+  @return $result;
+}
+
+@function unpack($shorthand) {
+  @if length($shorthand) == 1 {
+    @return nth($shorthand, 1) nth($shorthand, 1) nth($shorthand, 1) nth($shorthand, 1);
+  }
+  @else if length($shorthand) == 2 {
+    @return nth($shorthand, 1) nth($shorthand, 2) nth($shorthand, 1) nth($shorthand, 2);
+  }
+  @else if length($shorthand) == 3 {
+    @return nth($shorthand, 1) nth($shorthand, 2) nth($shorthand, 3) nth($shorthand, 2);
+  }
+  @else {
+    @return $shorthand;
+  }
+}
+
+@function calculate-font-size($max-width, $min-width, $max-font-size, $min-font-size) {
+  $slope: math.div(($max-font-size - $min-font-size), ($max-width - $min-width));
+  $base-font-size: $min-font-size - ($slope * $min-width);
+  @return calc(#{$base-font-size}px + #{$slope * 100}vw);
+}
+
+// Bootstrap functions
+@import "bootstrap/scss/functions";
+
+

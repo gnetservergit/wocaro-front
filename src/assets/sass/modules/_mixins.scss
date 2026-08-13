@@ -1,0 +1,261 @@
+//theme mixins
+@use "sass:selector";
+
+/*
+ * Unify Parent Mixin
+ *
+ * How to use:
+ * .form-control {
+ *   @include unify-parent("textarea") {
+ *     min-height: 90px;
+ *   }
+ * }
+ */
+
+@mixin unify-parent($child) {
+  @at-root #{selector.unify(&, $child)} {
+    @content;
+  }
+}
+
+/*
+ * Transition Mixin
+ *
+ * How to use:
+ * @include transitionTh(background, 0.2s);
+ */
+
+
+
+/*
+ * custom scroll bar
+ *
+ * How to use:
+ * @include scrollerX(red,blue,0,8);
+ */
+
+
+@mixin scrollerX($scroll-color, $thumb-color, $opacity, $scroll-size) {
+  overflow-x: auto;
+  scrollbar-height: #{$scroll-size+8}px;
+  //scrollbar-color: rgba($thumb-color,$opacity) $scroll-color;
+  -webkit-overflow-scrolling: touch;
+  
+  &::-webkit-scrollbar {
+    height: #{$scroll-size+8}px;
+  }
+  
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba($thumb-color,$opacity);
+    background-clip: padding-box;
+    border-radius: 20px; // Rounded corners
+    border-color: $scroll-color;
+    border-style: solid;
+    border-width: 4px 5px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: $scroll-color;
+  }
+}
+/*
+ * custom scroll bar Y
+ *
+ * How to use:
+ * @include scrollerY(red,blue,0,8);
+ */
+@mixin scrollerY($scroll-color, $thumb-color, $opacity, $scroll-size) {
+  overflow-y: auto;
+  scrollbar-width: #{$scroll-size+6}px;
+  //scrollbar-color: rgba($thumb-color,$opacity) $scroll-color;
+  -webkit-overflow-scrolling: touch;
+  
+  &::-webkit-scrollbar {
+    width: #{$scroll-size+6}px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba($thumb-color,$opacity);
+    background-clip: padding-box;
+    border-radius: 20px; // Rounded corners
+    border-color: $scroll-color;
+    border-style: solid;
+    border-width: 3px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: $scroll-color;
+  }
+}
+/**
+ * Breakpoint Mixin
+ *
+ * How to use:
+ * @include media-breakpoint($small, $large) {} min-width and max-width
+ * @include media-breakpoint($small) {} min-width only
+ * @include media-breakpoint(null, $large) {} max-width only
+ *
+ * @param min-width
+ * @param max-width
+ */
+@mixin media-breakpoint($min-width: null, $max-width: null) {
+  @if ($min-width and $max-width) {
+    @media (max-width: $max-width - 1px) and (min-width: $min-width) {
+      @content;
+    }
+  }
+  @else if ($max-width) {
+    @media (max-width: $max-width - 1px) {
+      @content;
+    }
+  }
+  @else {
+    @media (min-width: $min-width) {
+      @content;
+    }
+  }
+}
+
+/*
+ * position Mixin
+ *
+ * How to use:
+
+ * @include position(relative, null null null 0);
+ */
+
+@mixin position($position: relative, $coordinates: null null null null) {
+  @if type-of($position) == list {
+    $coordinates: $position;
+    $position: relative;
+  }
+  
+  $coordinates: unpack($coordinates);
+  
+  $offsets: ( top: nth($coordinates, 1), right: nth($coordinates, 2), bottom: nth($coordinates, 3), left: nth($coordinates, 4) );
+  
+  position: $position;
+  
+  @each $offset, $value in $offsets {
+    @if is-length($value) {
+      #{$offset}: $value;
+    }
+  }
+}
+
+
+/*
+ * ellipses Mixin
+ *
+ * How to use:
+ * @include ellipses(2);
+ */
+
+
+@mixin ellipses($value) {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: $value;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
+
+@mixin perspective($value,$origin: 'none') {
+  perspective: $value;
+  perspective-origin: $origin;
+}
+
+@mixin translate($left,$top) {
+  -webkit-transform: translate(#{$left}px, #{$top}px);  /* Chrome, Safari, Opera */
+  -moz-transform: translate(#{$left}px, #{$top}px);   /* Firefox */
+  -ms-transform: translate(#{$left}px, #{$top}px);   /* IE 9 */
+  transform: translate(#{$left}px, #{$top}px);   /* Standard syntax */
+}
+@mixin translate3d($translateX,$translateY,$translateZ) {
+  -webkit-transform: translate3d(#{$translateX}px, #{$translateY}px, #{$translateZ}px); /* Chrome, Safari, Opera */
+  -moz-transform: translate3d(#{$translateX}px, #{$translateY}px, #{$translateZ}px);  /* Firefox */
+  -ms-transform: translate3d(#{$translateX}px, #{$translateY}px, #{$translateZ}px);  /* IE 9 */
+  transform: translate3d(#{$translateX}px, #{$translateY}px, #{$translateZ}px); /* Standard syntax */
+}
+
+@mixin origin($value1,$value2) {
+  -webkit-transform-origin: $value1 $value2;
+  -moz-transform-origin: $value1 $value2;
+  -ms-transform-origin: $value1 $value2;
+  transform-origin: $value1 $value2;
+}
+
+@mixin rotate($number) {
+  -webkit-transform: rotate(#{$number}deg);  /* Chrome, Safari, Opera */
+  -moz-transform: rotate(#{$number}deg);  /* Firefox */
+  -ms-transform: rotate(#{$number}deg);  /* IE 9 */
+  transform: rotate(#{$number}deg);  /* Standard syntax */
+}
+@mixin rotate3d($rotateX,$rotateY,$rotateZ,$number) {
+  -webkit-transform: rotate3d($rotateX, $rotateY, $rotateZ, #{$number}deg);  /* Chrome, Safari, Opera */
+  -moz-transform: rotate3d($rotateX, $rotateY, $rotateZ, #{$number}deg);  /* Firefox */
+  -ms-transform: rotate3d($rotateX, $rotateY, $rotateZ, #{$number}deg);  /* IE 9 */
+  transform: rotate3d($rotateX, $rotateY, $rotateZ, #{$number}deg);  /* Standard syntax */
+}
+@mixin skew($left,$top) {
+  -webkit-transform: skew(#{$left}deg, #{$left}deg);  /* Chrome, Safari, Opera */
+  -moz-transform: skew(#{$left}deg, #{$left}deg);  /* Firefox */
+  -ms-transform: skew(#{$left}deg, #{$left}deg);  /* IE 9 */
+  transform: skew(#{$left}deg, #{$left}deg);  /* Modern Browsers */
+}
+
+@mixin scale($decimal) {
+  -webkit-transform: scale($decimal);  /* Chrome, Safari, Opera */
+  -moz-transform: scale($decimal);  /* Firefox */
+  -ms-transform: scale($decimal);  /* IE 9 */
+  transform: scale($decimal);  /* Modern Browsers */
+}
+@mixin scale3d($scaleX,$scaleY,$scaleZ){
+  -webkit-transform: scale3d($scaleX,$scaleY,$scaleZ);  /* Chrome, Safari, Opera */
+  -moz-transform: scale3d($scaleX,$scaleY,$scaleZ);  /* Firefox */
+  -ms-transform: scale3d($scaleX,$scaleY,$scaleZ); /* IE 9 */
+  transform: scale3d($scaleX,$scaleY,$scaleZ);  /* Modern Browsers */
+}
+
+//@mixin media-breakpoint-down-destop($name) {
+//  @if $name == "xl" {
+//    @media (max-width: 1365.98px) {
+//      @content;
+//    }
+//  }
+//  @if $name == "xxl" {
+//    @media (max-width: 1599.98px) {
+//      @content;
+//    }
+//  }
+//  @if $name == "xxxl" {
+//    @media (max-width: 1919.98px) {
+//      @content;
+//    }
+//  }
+//}
+
+
+
+// Bootstrap mixins
+@import "bootstrap/scss/mixins";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,28 @@
+{
+  "name": "wocaro",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {   
+    "next": "^15",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-redux": "^9.2.0",
+    "bootstrap": "^5.3.8",
+    "sass": "1.78.0",
+    "swiper": "^12.1.4"
+
+  },  
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "mini-css-extract-plugin": "^2.9.2",
+    "typescript": "^5"
+  }
+}

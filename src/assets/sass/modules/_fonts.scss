@@ -1,0 +1,108 @@
+
+//fonts
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+$satoshi-font-path: "../../fonts/satoshi";
+
+@font-face {
+	font-family: 'Satoshi';
+	src: url('#{$satoshi-font-path}/Satoshi-Light.eot');
+	src: url('#{$satoshi-font-path}/Satoshi-Light.eot?#iefix') format('embedded-opentype'),
+		 url('#{$satoshi-font-path}/Satoshi-Light.woff2') format('woff2'),
+		 url('#{$satoshi-font-path}/Satoshi-Light.woff') format('woff');
+
+	font-weight: 300;
+	font-display: swap;
+	font-style: normal;
+  }
+  @font-face {
+	font-family: 'Satoshi';
+	src: url('#{$satoshi-font-path}/Satoshi-LightItalic.eot');
+	src: url('#{$satoshi-font-path}/Satoshi-LightItalic.eot?#iefix') format('embedded-opentype'),
+		 url('#{$satoshi-font-path}/Satoshi-LightItalic.woff2') format('woff2'),
+		 url('#{$satoshi-font-path}/Satoshi-LightItalic.woff') format('woff');
+	font-weight: 300;
+	font-display: swap;
+	font-style: italic;
+  }
+  @font-face {
+	font-family: 'Satoshi';
+	src: url('#{$satoshi-font-path}/Satoshi-Regular.eot');
+	src: url('#{$satoshi-font-path}/Satoshi-Regular.eot?#iefix') format('embedded-opentype'),
+		 url('#{$satoshi-font-path}/Satoshi-Regular.woff2') format('woff2'),
+		 url('#{$satoshi-font-path}/Satoshi-Regular.woff') format('woff');
+	font-weight: 400;
+	font-display: swap;
+	font-style: normal;
+  }
+  @font-face {
+	font-family: 'Satoshi';
+	src: url('#{$satoshi-font-path}/Satoshi-Italic.eot');
+	src: url('#{$satoshi-font-path}/Satoshi-Italic.eot?#iefix') format('embedded-opentype'),
+		 url('#{$satoshi-font-path}/Satoshi-Italic.woff2') format('woff2'),
+		 url('#{$satoshi-font-path}/Satoshi-Italic.woff') format('woff');
+	font-weight: 400;
+	font-display: swap;
+	font-style: italic;
+  }
+  @font-face {
+	font-family: 'Satoshi';
+	src: url('#{$satoshi-font-path}/Satoshi-Medium.eot');
+	src: url('#{$satoshi-font-path}/Satoshi-Medium.eot?#iefix') format('embedded-opentype'),
+		 url('#{$satoshi-font-path}/Satoshi-Medium.woff2') format('woff2'),
+		 url('#{$satoshi-font-path}/Satoshi-Medium.woff') format('woff');
+	font-weight: 500;
+	font-display: swap;
+	font-style: normal;
+  }
+  @font-face {
+	font-family: 'Satoshi';
+	src: url('#{$satoshi-font-path}/Satoshi-MediumItalic.eot');
+	src: url('#{$satoshi-font-path}/Satoshi-MediumItalic.eot?#iefix') format('embedded-opentype'),
+		 url('#{$satoshi-font-path}/Satoshi-MediumItalic.woff2') format('woff2'),
+		 url('#{$satoshi-font-path}/Satoshi-MediumItalic.woff') format('woff');
+	font-weight: 500;
+	font-display: swap;
+	font-style: italic;
+  }
+  @font-face {
+	font-family: 'Satoshi';
+	src: url('#{$satoshi-font-path}/Satoshi-Bold.eot');
+	src: url('#{$satoshi-font-path}/Satoshi-Bold.eot?#iefix') format('embedded-opentype'),
+		 url('#{$satoshi-font-path}/Satoshi-Bold.woff2') format('woff2'),
+		 url('#{$satoshi-font-path}/Satoshi-Bold.woff') format('woff');
+	font-weight: 700;
+	font-display: swap;
+	font-style: normal;
+  }
+  @font-face {
+	font-family: 'Satoshi';
+	src: url('#{$satoshi-font-path}/Satoshi-BoldItalic.eot');
+	src: url('#{$satoshi-font-path}/Satoshi-BoldItalic.eot?#iefix') format('embedded-opentype'),
+		 url('#{$satoshi-font-path}/Satoshi-BoldItalic.woff2') format('woff2'),
+		 url('#{$satoshi-font-path}/Satoshi-BoldItalic.woff') format('woff');
+	font-weight: 700;
+	font-display: swap;
+	font-style: italic;
+  }
+  @font-face {
+	font-family: 'Satoshi';
+	src: url('#{$satoshi-font-path}/Satoshi-Black.eot');
+	src: url('#{$satoshi-font-path}/Satoshi-Black.eot?#iefix') format('embedded-opentype'),
+		 url('#{$satoshi-font-path}/Satoshi-Black.woff2') format('woff2'),
+		 url('#{$satoshi-font-path}/Satoshi-Black.woff') format('woff');
+	font-weight: 900;
+	font-display: swap;
+	font-style: normal;
+  }
+  @font-face {
+	font-family: 'Satoshi';
+	src: url('#{$satoshi-font-path}/Satoshi-BlackItalic.eot');
+	src: url('#{$satoshi-font-path}/Satoshi-BlackItalic.eot?#iefix') format('embedded-opentype'),
+		 url('#{$satoshi-font-path}/Satoshi-BlackItalic.woff2') format('woff2'),
+		 url('#{$satoshi-font-path}/Satoshi-BlackItalic.woff') format('woff');
+	font-weight: 900;
+	font-display: swap;
+	font-style: italic;
+  }
