@@ -5,6 +5,9 @@ import { buildPageMetadata } from "@/lib/seo";
 
 const HOME_SLUG = "home";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export async function generateMetadata(): Promise<Metadata> {
   const page = await fetchPageBySlug(HOME_SLUG);
   return await buildPageMetadata(page, HOME_SLUG, "Home");

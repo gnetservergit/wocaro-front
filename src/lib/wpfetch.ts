@@ -1,13 +1,12 @@
 /**
  * Shared fetch options for WordPress API calls.
  *
- * - Production/export: data is baked into static HTML at `next build`.
- * - Development: shorter revalidate (15s) so ACF edits show up quickly.
- * - Override globally via WP_FETCH_REVALIDATE in .env.
+ * - Production/export: force-cache only (ISR/no-store breaks `output: "export"`).
+ * - Development: shorter revalidate so ACF edits show up quickly.
+ * - Override globally via WP_FETCH_REVALIDATE in .env (dev only).
  */
 const IS_DEV = process.env.NODE_ENV === "development";
 
-/** Default ISR: 15s in dev, 60s pages / 300s menus in production (override via .env). */
 const DEV_REVALIDATE_SECONDS = 15;
 
 function envRevalidate(): number | null {
@@ -25,10 +24,13 @@ export function wpFetchRevalidate(fallback: number): number {
 }
 
 export function wpFetchOptions(tags: string[], revalidate: number): RequestInit {
-  const seconds = wpFetchRevalidate(revalidate);
+  if (!IS_DEV) {
+    return { cache: "force-cache" };
+  }
 
+  const seconds = wpFetchRevalidate(revalidate);
   if (seconds <= 0) {
-    return { cache: "no-store", next: { tags } };
+    return { cache: "no-store" };
   }
 
   return { next: { revalidate: seconds, tags } };
