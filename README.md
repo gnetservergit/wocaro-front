@@ -21,6 +21,33 @@ npm run build    # writes static site to out/
 
 Copy `.env.example` to `.env` for local development.
 
+### Env vars
+
+| Variable | Needed | Purpose |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | yes | This frontend URL (canonical, sitemap) |
+| `NEXT_PUBLIC_WP_API_URL` | yes | WordPress REST base (`…/wp-json`) |
+| `NEXT_PUBLIC_WP_SITE_URL` | yes | WP site origin so menu/permalinks rewrite to this frontend |
+| `NEXT_PUBLIC_WP_THEME_PATH` | no | Fallback theme image URL only |
+| `REVALIDATE_SECRET` | no | Unused (no `/api/revalidate` on static export) |
+| `WP_FETCH_REVALIDATE` | no | Dev-only cache tweak |
+
+Local example:
+
+```env
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_WP_API_URL=http://localhost/wocaro/wp-json
+NEXT_PUBLIC_WP_SITE_URL=http://localhost/wocaro
+```
+
+Staging/production example (inside GitHub secret `STAGING_ENV`, plus FTP):
+
+```env
+NEXT_PUBLIC_SITE_URL=https://yourdomain.com
+NEXT_PUBLIC_WP_API_URL=https://wp.yourdomain.com/wp-json
+NEXT_PUBLIC_WP_SITE_URL=https://wp.yourdomain.com
+```
+
 ## Staging deploy (FTP)
 
 Push to `staging` or `main`, or run **Actions → Deploy Staging (FTP)**. CI builds `out/` from WordPress, then FTPs only changed files into `public_html`.
@@ -29,7 +56,7 @@ Push to `staging` or `main`, or run **Actions → Deploy Staging (FTP)**. CI bui
 
 Repo → **Settings** → **Secrets and variables** → **Actions** → create **`STAGING_ENV`**.
 
-Paste the full contents of `.env.example` (site URLs + FTP) into that single secret and edit values there. Update this one secret whenever anything changes.
+Paste the full contents of `.env.example` into that single secret: the three URL vars above (with live domains) plus FTP. Update this one secret whenever anything changes.
 
 If FTP TLS fails, set `STAGING_FTP_PROTOCOL=ftp` inside `STAGING_ENV`.
 

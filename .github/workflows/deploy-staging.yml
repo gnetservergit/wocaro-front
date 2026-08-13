@@ -54,7 +54,7 @@ jobs:
                   value = value[1:-1]
               parsed[key] = value
 
-          required_app = ["NEXT_PUBLIC_SITE_URL", "NEXT_PUBLIC_WP_API_URL"]
+          required_app = ["NEXT_PUBLIC_SITE_URL", "NEXT_PUBLIC_WP_API_URL", "NEXT_PUBLIC_WP_SITE_URL"]
           required_ftp = ["STAGING_FTP_HOST", "STAGING_FTP_USERNAME", "STAGING_FTP_PASSWORD", "STAGING_FTP_SERVER_DIR"]
           missing = [key for key in required_app + required_ftp if not parsed.get(key)]
           if missing:
