@@ -9,6 +9,16 @@ export function getSiteUrl(): string {
   return (process.env.NEXT_PUBLIC_SITE_URL ?? "").replace(/\/$/, "");
 }
 
+/** Safe origin for Next metadataBase during static export. */
+export function getMetadataBase(): URL {
+  const site = getSiteUrl();
+  try {
+    return new URL(site || "http://localhost:3000");
+  } catch {
+    return new URL("http://localhost:3000");
+  }
+}
+
 export function getWpApiUrl(): string {
   return (process.env.NEXT_PUBLIC_WP_API_URL ?? "").replace(/\/$/, "");
 }

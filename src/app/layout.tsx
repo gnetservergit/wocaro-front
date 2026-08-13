@@ -3,10 +3,10 @@ import type { ReactNode } from "react";
 import "@/assets/sass/style.scss";
 import BootstrapProvider from "@/component/BootstrapProvider";
 import Footer from "@/component/common/Footer";
-import { getSiteUrl } from "@/lib/paths";
+import { getMetadataBase } from "@/lib/paths";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(getSiteUrl()),
+  metadataBase: getMetadataBase(),
   title: "Wocaro",
   description: "Wocaro Next.js + WordPress Theme",
 };
