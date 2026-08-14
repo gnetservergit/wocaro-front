@@ -29,8 +29,7 @@ Copy `.env.example` to `.env` for local development.
 | `NEXT_PUBLIC_WP_API_URL` | yes | WordPress REST base (`…/wp-json`) |
 | `NEXT_PUBLIC_WP_SITE_URL` | yes | WP site origin so menu/permalinks rewrite to this frontend |
 | `NEXT_PUBLIC_WP_THEME_PATH` | no | Fallback theme image URL only |
-| `REVALIDATE_SECRET` | no | Unused (no `/api/revalidate` on static export) |
-| `WP_FETCH_REVALIDATE` | no | Dev-only cache tweak |
+| `WP_FETCH_REVALIDATE` | no | Dev-only WP fetch cache seconds (`0` = no-store) |
 
 Local example:
 

@@ -1,9 +1,9 @@
 /**
  * Shared fetch options for WordPress API calls.
  *
- * - Production/export: force-cache only (ISR/no-store breaks `output: "export"`).
- * - Development: shorter revalidate so ACF edits show up quickly.
- * - Override globally via WP_FETCH_REVALIDATE in .env (dev only).
+ * - Production/export: force-cache (static `output: "export"`).
+ * - Development: short Next fetch cache so WP edits show up quickly.
+ * - Optional: WP_FETCH_REVALIDATE in .env (dev only; 0 = no-store).
  */
 const IS_DEV = process.env.NODE_ENV === "development";
 
