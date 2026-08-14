@@ -15,11 +15,31 @@ export type WpLayoutBlock = Record<string, unknown> & {
   acf_layout?: string;
 };
 
+/** Rank Math plugin data from WP REST (`rank_math` field). Not ACF. */
+export interface RankMathSeo {
+  title?: string;
+  description?: string;
+  focus_keyword?: string;
+  robots?: string[];
+  canonical?: string;
+  og_title?: string;
+  og_description?: string;
+  og_image?: string;
+  twitter_title?: string;
+  twitter_description?: string;
+  twitter_image?: string;
+}
+
 export interface WpPage {
   id: number;
   title: WpRendered;
   content: WpRendered;
   excerpt?: WpRendered;
+  link?: string;
+  featured_media?: number;
+  /** Resolved featured image — only used as share-preview fallback. */
+  featured_image_url?: string;
+  rank_math?: RankMathSeo;
   acf?: {
     page_layout?: WpLayoutBlock[];
   };
@@ -68,6 +88,23 @@ async function fetchPageBySlugInternal(slug: string): Promise<WpPage | null> {
     if (!pages.length) return null;
 
     const page = pages[0];
+
+    const mediaId = typeof page.featured_media === "number" ? page.featured_media : 0;
+    if (mediaId > 0) {
+      try {
+        const mediaRes = await fetch(
+          `${apiBase}/wp/v2/media/${mediaId}?_fields=source_url`,
+          wpFetchOptions([`media:${mediaId}`], 300)
+        );
+        if (mediaRes.ok) {
+          const media = (await mediaRes.json()) as { source_url?: string };
+          if (media.source_url) page.featured_image_url = media.source_url;
+        }
+      } catch {
+        /* optional share image */
+      }
+    }
+
     if (page.acf?.page_layout?.length) {
       page.acf.page_layout = await resolveLayoutImages(page.acf.page_layout);
     }
